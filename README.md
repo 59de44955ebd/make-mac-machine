@@ -1,4 +1,4 @@
-# MacOnWindows
+# make-mac-machine
 
 A small tool that allows to quickly create virtual macOS machines for VMWare Workstation Pro without requiring macOS installation media
 
