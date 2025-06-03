@@ -31,7 +31,7 @@ After selecting a macOS version the tool first downloads the corresponding recov
 ## Usage
 
 - Run make-mac-machine.exe, select a macOS version and wait until the tool completed
-- There should now be new virtual machine in a new folder `macOS-<version>` in the current directory
+- There should now be a new virtual machine in a new folder `macOS-<version>` inside the current directory
 - Open the .vmx file in this folder in Workstation (if the tool failed to open it automatically) and start the machine
 - Install macOS by clicking on "Reinstall macOS"
 - Done.
