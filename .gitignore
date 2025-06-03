@@ -1,0 +1,7 @@
+stuff/
+releases/
+src/build
+src/dist
+src/*.spec
+machines.zip
+_backup.rar
