@@ -21,7 +21,7 @@ echo ****************************************
 echo Copying resources...
 echo ****************************************
 
-xcopy /e ..\bin "dist\%APP_NAME%\_internal\bin\" >nul
+xcopy /e ..\bin-win "dist\%APP_NAME%\_internal\bin\" >nul
 xcopy /e ..\dsk "dist\%APP_NAME%\_internal\dsk\" >nul
 xcopy /e ..\vmx "dist\%APP_NAME%\_internal\vmx\" >nul
 
@@ -33,6 +33,16 @@ echo ****************************************
 del dist\%APP_NAME%\_internal\api-ms-win-*.dll
 del dist\%APP_NAME%\_internal\libcrypto-3.dll
 del dist\%APP_NAME%\_internal\ucrtbase.dll
+
+echo.
+echo ****************************************
+echo Creating ZIP...
+echo ****************************************
+
+cd dist
+del "%APP_NAME%-standalone-windows-x64.zip" 2>nul
+zip -q -r "%APP_NAME%-standalone-windows-x64.zip" "%APP_NAME%"
+cd ..
 
 echo.
 pause

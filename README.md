@@ -1,6 +1,6 @@
 # make-mac-machine
 
-A small tool that allows to quickly create virtual macOS machines for VMware Workstation Pro without requiring macOS installation media
+A small cross-platform (Windows and macOS) tool that allows to quickly create virtual macOS machines for VMware Workstation Pro (Windows) or VMware Fusion Pro (macOS) without requiring macOS installation media
 
 ## Available macOS versions
 
@@ -14,13 +14,14 @@ A small tool that allows to quickly create virtual macOS machines for VMware Wor
 
 ## Description
 
-`make-mac-machine.exe` allows to create virtual macOS machines for VMware Workstation 17.5 or later by using recovery images provided online by Apple. It's based on the [Python code](https://github.com/kholia/OSX-KVM/blob/master/fetch-macOS-v2.py) of repository [OSX-KVM](https://github.com/kholia/OSX-KVM/tree/master). You might want to check out section [Is This Legal?](https://github.com/kholia/OSX-KVM?tab=readme-ov-file#is-this-legal) in their [README](https://github.com/kholia/OSX-KVM/blob/master/README.md).
+`make-mac-machine` allows to create virtual macOS machines for VMware Workstation 17.5 or later and VMware Fusion Pro 13.5 or later by using recovery images provided online by Apple. It's based on the [Python code](https://github.com/kholia/OSX-KVM/blob/master/fetch-macOS-v2.py) of repository [OSX-KVM](https://github.com/kholia/OSX-KVM/tree/master). You might want to check out section [Is This Legal?](https://github.com/kholia/OSX-KVM?tab=readme-ov-file#is-this-legal) in their [README](https://github.com/kholia/OSX-KVM/blob/master/README.md).
 It also uses [dmg2img](http://vu1tur.eu.org/dmg2img) by Peter Wu and [QEMU](https://www.qemu.org/)'s disk image utility [qemu-img](https://qemu-project.gitlab.io/qemu/tools/qemu-img.html).
 
-After selecting a macOS version the tool first downloads the corresponding recovery .dmg file (into the TEMP directory), then converts it to an .img file using included `dmg2img.exe`, and then finally to a VMware disk image file (.vmdk) using included `qemu-img.exe`. The new virtual machine can then boot from this recovery disk image and macOS can be installed on the provided empty but prepartioned/preformatted main disk file `disk.vmdk` (volume "Macintosh HD", Mac OS Extended (Journaled), 40 GB). File `disk.vmdk` is only provided for convenience, so you can immediately start the macOS installation with "Reinstall macOS" without the need to first open Disk Utility and partition/format a disk.
+After selecting a macOS version the tool first downloads the corresponding recovery .dmg file (into the TMP directory), then converts it to an .img file using included `dmg2img`, and then finally to a VMware disk image file (.vmdk) using included `qemu-img`. The new virtual machine can then boot from this recovery disk image and macOS can be installed on the provided empty but prepartioned/preformatted main disk file `disk.vmdk` (volume "Macintosh HD", Mac OS Extended (Journaled), 40 GB). File `disk.vmdk` is only provided for convenience, so you can immediately start the macOS installation with "Reinstall macOS" without the need to first open Disk Utility and partition/format a disk.
 
 ## Prerequisites
 
+### a) Windows
 - Windows 10/11
 - [VMware Workstation Pro 17.5](https://support.broadcom.com/group/ecx/productdownloads?subfamily=VMware+Workstation+Pro) or later (now [free](https://blogs.vmware.com/workstation/2024/05/vmware-workstation-pro-now-available-free-for-personal-use.html) as in beer)
 - macOS support in Workstation unlocked with DrDonk's [unlocker](https://github.com/DrDonk/unlocker/)  
@@ -28,11 +29,17 @@ After selecting a macOS version the tool first downloads the corresponding recov
 - Internet connection
 - Current directory must be writable
 
+### b) macOS
+- Recent macOS system
+- [VMware Fusion Pro 13.5](https://support.broadcom.com/group/ecx/productdownloads?subfamily=VMware+Fusion) or later (now [free](https://blogs.vmware.com/workstation/2024/05/vmware-workstation-pro-now-available-free-for-personal-use.html) as in beer)
+- Internet connection
+- Current directory must be writable
+
 ## Usage
 
-- Run make-mac-machine.exe, select a macOS version and wait until the tool completed
+- Run `make-mac-machine`, select a macOS version and wait until the tool completed
 - There should now be a new virtual machine in a new folder `macOS-<version>` inside the current directory
-- Open the .vmx file in this folder in Workstation (if the tool failed to open it automatically) and start the machine
+- Open the .vmx file in this folder in Workstation resp. Fusion (if the tool failed to open it automatically) and start the machine
 - Install macOS by clicking on "Reinstall macOS"
 - Done.
 
@@ -42,7 +49,7 @@ After macOS was successfully installed, power off the machine, go to its setting
 
 Some hints for improving the performance of a freshly created macOS VM:
 
-- Install VMware Tools inside the macOS guest system (Workstation menu -> VM -> Install VMware Tools...)
+- Install VMware Tools inside the macOS guest system (Workstation/Fusion menu -> VM -> Install VMware Tools...)
 - Turn off features in macOS that waste CPU power by running this in macOS Terminal:
 
   ```

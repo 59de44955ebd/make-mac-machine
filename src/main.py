@@ -488,6 +488,11 @@ class gdata:
 
 
 def main():
+
+    IS_FROZEN = getattr(sys, "frozen", False)
+    IS_WIN = sys.platform == 'win32'
+    TMP_DIR = os.environ['TMP'] if IS_WIN else '/tmp'
+
     products = [
             {"name": "Mojave (10.14)",      "b": "Mac-7BA5B2DFE22DDD8C", "m": "00000000000KXPG00", "short": "mojave",                           "ver": "10.14"},
             {"name": "Catalina (10.15)",    "b": "Mac-00BE6ED71E35EB86", "m": "00000000000000000", "short": "catalina",                         "ver": "10.15"},
@@ -497,7 +502,7 @@ def main():
             {"name": "Sonoma (14)",         "b": "Mac-827FAC58A8FDFA22", "m": "00000000000000000", "short": "sonoma",                           "ver": "14"},
             {"name": "Sequoia (15)",        "b": "Mac-7BA5B2D9E42DDD94", "m": "00000000000000000", "short": "sequoia", "os_type": "latest",     "ver": "15"},
     ]
-    
+
     for index, product in enumerate(products):
         name = product["name"]
         print('%s. %s' % (index + 1, name))
@@ -513,48 +518,49 @@ def main():
     except:
         os_type = "default"
     args = gdata(mlb = product["m"], board_id = product["b"], diagnostics =
-            False, os_type = os_type, verbose=False, basename=product["short"], outdir=os.environ['TMP'])
+            False, os_type = os_type, verbose=False, basename=product["short"], outdir=TMP_DIR)
 
-    IS_FROZEN = getattr(sys, "frozen", False)
-    
     APP_DIR = os.path.dirname(os.path.realpath(__file__))
-    
+
     if IS_FROZEN:
         RES_DIR = os.path.join(APP_DIR)
     else:
         RES_DIR = os.path.join(APP_DIR, '..')
-        
+
     VMX_DIR = os.path.join(RES_DIR, 'vmx')
     BIN_DIR = os.path.join(RES_DIR, 'bin')
     DSK_DIR = os.path.join(RES_DIR, 'dsk')
-    
-    os.environ['PATH'] += ';' + BIN_DIR
+
+    os.environ["PATH"] = BIN_DIR + os.pathsep + os.environ["PATH"]
 
     MACHINE_DIR = os.path.realpath(os.path.join('.', 'macOS-' + product["ver"]))
 
-    dmg_file = os.path.join(os.environ['TMP'], product["short"] + '.dmg')
-    chunklist_file = os.path.join(os.environ['TMP'], product["short"] + '.chunklist')
-    img_file = os.path.join(os.environ['TMP'], product["short"] + '.img')
-    
+    dmg_file = os.path.join(TMP_DIR, product["short"] + '.dmg')
+    chunklist_file = os.path.join(TMP_DIR, product["short"] + '.chunklist')
+    img_file = os.path.join(TMP_DIR, product["short"] + '.img')
+
     disk_src_file = os.path.join(DSK_DIR, 'disk.vmdk.gz')
     vmx_src_file = os.path.join(VMX_DIR, f'macOS-{product["ver"]}.vmx')
-    
+
     recovery_dst_file = os.path.join(MACHINE_DIR, f'recovery-{product["ver"]}.vmdk')
     disk_dst_file = os.path.join(MACHINE_DIR, 'disk.vmdk')
     vmx_dst_file = os.path.join(MACHINE_DIR, f'macOS-{product["ver"]}.vmx')
-    
+
     ############################################
     # Create machine folder
     ############################################
     os.mkdir(MACHINE_DIR)
-    # Copy .vmx config file
-    shutil.copyfile(vmx_src_file, vmx_dst_file)
     
+    ############################################
+    # Copy .vmx config file
+    ############################################
+    shutil.copyfile(vmx_src_file, vmx_dst_file)
+
     ############################################
     # Download recovery .dmg
     ############################################
     print("\nDownloading recovery .dmg file...")
-    action_download(args) 
+    action_download(args)
     os.unlink(chunklist_file)
 
     ############################################
@@ -577,12 +583,15 @@ def main():
     with gzip.open(disk_src_file, 'rb') as f_src:
         with open(disk_dst_file, 'wb') as f_dst:
             f_dst.write(f_src.read())
-        
+
     ############################################
-    # Try to open new machine in VMWare Workstation
+    # Try to open new machine in VMWare Workstation/Fusion
     ############################################
-    os.system(f'explorer.exe "{vmx_dst_file}"')
-    
+    if IS_WIN:
+        os.system(f'explorer.exe "{vmx_dst_file}"')
+    else:
+        os.system(f'open "{vmx_dst_file}"')
+
     print('\nDone.')
 
 
