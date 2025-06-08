@@ -67,7 +67,7 @@ After macOS was successfully installed, power off the machine, go to its setting
 
 Since the beginning of 2023, macOS High Sierra Internet recovery broke. But the recovery media is still online, the issue is related to some [SSL fuss](https://mrmacintosh.com/how-to-fix-the-recovery-server-could-not-be-contacted-error-high-sierra-recovery-is-still-online-but-broken/) and can  by fixed by replacing "https://" with "http://" in the download URLs.
 
-So when running a macOS 10.13 High Sierra machine created by mac-mac-machine for the very first time, before clicking on "Reinstall macOS" first open Terminal from the "Utilities" menu and run:
+So when running a macOS 10.13 High Sierra machine created by make-mac-machine for the very first time, before clicking on "Reinstall macOS" first open Terminal from the "Utilities" menu and run:
 ```
 /Volumes/hs/fix.sh
 ```
