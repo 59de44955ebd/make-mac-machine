@@ -71,7 +71,7 @@ So when running a macOS 10.13 High Sierra machine created by make-mac-machine fo
 ```
 /Volumes/hs/fix.sh
 ```
-Then quit Terminal, and back in "macOS Utilities" install the system setup via "Reinstall macOS" as usual.
+Then quit Terminal, and back in "macOS Utilities" install the system via "Reinstall macOS" as usual.
 
 When installation is finished, you can disconnect and delete the small "hs.iso" file in the machine folder. It only contains the single-line shell script `fix.sh` that overwrites the recovery download URL via nvram and is not needed anymore.
 
