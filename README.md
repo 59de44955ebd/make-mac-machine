@@ -4,13 +4,14 @@ A small cross-platform tool that allows to quickly create virtual macOS machines
 
 ## Available macOS versions
 
-1. macOS 10.14 (Mojave)
-2. macOS 10.15 (Catalina)
-3. macOS 11 (Big Sur)
-4. macOS 12 (Monterey)
-5. macOS 13 (Ventura)
-6. macOS 14 (Sonoma)
-7. macOS 15 (Sequoia)
+1. macOS 10.13 (High Sierra)
+2. macOS 10.14 (Mojave)
+3. macOS 10.15 (Catalina)
+4. macOS 11 (Big Sur)
+5. macOS 12 (Monterey)
+6. macOS 13 (Ventura)
+7. macOS 14 (Sonoma)
+8. macOS 15 (Sequoia)
 
 ## Description
 
@@ -61,6 +62,18 @@ The standalone release versions for Windows and macOS have tools `dmg2img` and `
 - Done.
 
 After macOS was successfully installed, power off the machine, go to its settings and remove the installation disk "Hard Disk 2 (SATA)". You can also delete the file `recovery-<version>.vmdk` in the machine's folder since its not needed anymore.
+
+### Special instructions only for macOS 10.13 (High Sierra)
+
+Since the beginning of 2023, macOS High Sierra Internet recovery broke. But the recovery media is still online, the issue is related to some [SSL fuss](https://mrmacintosh.com/how-to-fix-the-recovery-server-could-not-be-contacted-error-high-sierra-recovery-is-still-online-but-broken/) and can  by fixed by replacing "https://" with "http://" in the download URLs.
+
+So when running a macOS 10.13 High Sierra machine created by mac-mac-machine for the very first time, before clicking on "Reinstall macOS" first open Terminal from the "Utilities" menu and run:
+```
+/Volumes/hs/fix.sh
+```
+Then quit Terminal, and back in "macOS Utilities" install the system setup via "Reinstall macOS" as usual.
+
+When installation is finished, you can disconnect and delete the small "hs.iso" file in the machine folder. It only contains the single-line shell script `fix.sh` that overwrites the recovery download URL via nvram and is not needed anymore.
 
 ## Post-Installation
 

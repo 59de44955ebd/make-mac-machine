@@ -494,6 +494,7 @@ def main():
     TMP_DIR = os.environ['TMP'] if IS_WIN else '/tmp'
 
     products = [
+            {"name": "High Sierra (10.13)", "b": "Mac-7BA5B2D9E42DDD94", "m": "00000000000J80300", "short": "high-sierra",                      "ver": "10.13"},
             {"name": "Mojave (10.14)",      "b": "Mac-7BA5B2DFE22DDD8C", "m": "00000000000KXPG00", "short": "mojave",                           "ver": "10.14"},
             {"name": "Catalina (10.15)",    "b": "Mac-00BE6ED71E35EB86", "m": "00000000000000000", "short": "catalina",                         "ver": "10.15"},
             {"name": "Big Sur (11.7)",      "b": "Mac-2BD1B31983FE1663", "m": "00000000000000000", "short": "big-sur",                          "ver": "11"},
@@ -528,7 +529,10 @@ def main():
         RES_DIR = os.path.join(APP_DIR, '..')
 
     VMX_DIR = os.path.join(RES_DIR, 'vmx')
-    BIN_DIR = os.path.join(RES_DIR, 'bin')
+    if IS_FROZEN:
+        BIN_DIR = os.path.join(RES_DIR, 'bin')
+    else:
+        BIN_DIR = os.path.join(RES_DIR, 'bin-win' if IS_WIN else 'bin-mac')
     DSK_DIR = os.path.join(RES_DIR, 'dsk')
 
     os.environ["PATH"] = BIN_DIR + os.pathsep + os.environ["PATH"]
@@ -583,6 +587,12 @@ def main():
     with gzip.open(disk_src_file, 'rb') as f_src:
         with open(disk_dst_file, 'wb') as f_dst:
             f_dst.write(f_src.read())
+            
+    ############################################
+    # Copy High Sierra fix iso
+    ############################################
+    if product["ver"] == "10.13":
+        shutil.copyfile(os.path.join(DSK_DIR, 'hs.iso'), os.path.join(MACHINE_DIR, 'hs.iso'))
 
     ############################################
     # Try to open new machine in VMWare Workstation/Fusion
