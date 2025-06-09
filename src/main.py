@@ -578,7 +578,7 @@ def main():
     # Convert .img to .vmdk
     ############################################
     print("\nConverting .img to .vmdk file...")
-    os.system(f'c "{img_file}" "{recovery_dst_file}"')
+    os.system(f'qemu-img convert -O vmdk "{img_file}" "{recovery_dst_file}"')
     os.unlink(img_file)
 
     ############################################
