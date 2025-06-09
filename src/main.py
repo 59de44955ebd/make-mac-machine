@@ -578,7 +578,7 @@ def main():
     # Convert .img to .vmdk
     ############################################
     print("\nConverting .img to .vmdk file...")
-    os.system(f'qemu-img convert -O vmdk "{img_file}" "{recovery_dst_file}"')
+    os.system(f'c "{img_file}" "{recovery_dst_file}"')
     os.unlink(img_file)
 
     ############################################
@@ -589,11 +589,11 @@ def main():
             f_dst.write(f_src.read())
             
     ############################################
-    # Copy High Sierra fix iso
+    # High Sierra fix: provided .nvram overwrites download URL (http:// instead of https://)
     ############################################
     if product["ver"] == "10.13":
-        shutil.copyfile(os.path.join(DSK_DIR, 'hs.iso'), os.path.join(MACHINE_DIR, 'hs.iso'))
-
+        shutil.copyfile(os.path.join(VMX_DIR, 'macOS-10.13.nvram'), os.path.join(MACHINE_DIR, 'macOS-10.13.nvram'))
+        
     ############################################
     # Try to open new machine in VMWare Workstation/Fusion
     ############################################
