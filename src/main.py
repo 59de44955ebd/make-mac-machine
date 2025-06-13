@@ -488,9 +488,10 @@ class gdata:
 
 
 def main():
-
-    IS_FROZEN = getattr(sys, "frozen", False)
     IS_WIN = sys.platform == 'win32'
+    if IS_WIN:
+        os.system('title make-mac-machine')
+    IS_FROZEN = getattr(sys, "frozen", False)
     TMP_DIR = os.environ['TMP'] if IS_WIN else '/tmp'
 
     products = [
