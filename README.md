@@ -46,11 +46,12 @@ The standalone release versions for Windows and macOS have tools `dmg2img` and `
 - Current directory must be writable
 - Installation (for Debian-based distros):
   ```
-  $ sudo apt-get install dmg2img qemu-utils
-  $ git clone https://github.com/59de44955ebd/make-mac-machine.git
-  $ cd make-mac-machine/src
-  $ chmod +x main.py
-  $ sudo ln -s $(realpath main.py) /usr/local/bin/make-mac-machine
+  sudo apt-get install dmg2img qemu-utils
+  git clone https://github.com/59de44955ebd/make-mac-machine.git
+  cd make-mac-machine/src
+  chmod +x main.py
+  ln -s "$(realpath main.py)" ~/.local/bin/make-mac-machine
+  # Or globally: sudo ln -s "$(realpath main.py)" /usr/local/bin/make-mac-machine
   ```
 
 ## Usage
